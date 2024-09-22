@@ -1,0 +1,28 @@
+---
+type Props = {
+  name: string;
+  url: string;
+};
+
+const { name, url } = Astro.props;
+const pokemonId = url.split('/').at(-2);
+const imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`;
+
+const styles = {
+  card: 'bg-slate-800 border border-slate-100 rounded p-4 flex flex-col justify-center items-center',
+  image: 'w-full h-auto',
+  name: 'capitalize text-xl font-bold text-sky-500',
+};
+---
+
+<section class={styles.card}>
+
+  <img
+    src={imageURL}
+    class={styles.image}
+    alt={`${name} pokemon`}
+  />
+
+  <h2 class={styles.name}>{name}</h2>
+
+</section>

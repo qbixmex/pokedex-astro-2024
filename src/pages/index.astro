@@ -1,20 +1,21 @@
 ---
 import Divider from '../components/divider.astro';
+import PokemonCard from '../components/pokemons/PokemonCard.astro';
 import MainLayout from '../layouts/main-layout.astro';
-import { getPokemonList } from '../services/get-pokemon-list';
+// import { getPokemonList } from '../services/get-pokemon-list';
+import type { PokemonList } from '../types/pokemon';
 
 const pageTitle = 'Pokemon List';
 
 const styles = {
-	mainWrapper: 'container px-5',
+	mainWrapper: 'container px-5 mx-auto',
 	heading: 'text-5xl text-purple-500/80 font-bold text-center mt-8',
-	pokemonWrapper: 'flex flex-wrap gap-x-4',
-	item: 'text-md capitalize font-bold text-green-500',
+	pokemonWrapper: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5',
 };
 
-const data = await getPokemonList();
-// const response = await fetch('https://pokeapi.co/api/v2/pokemon');
-// const data = await response.json();
+// const data = await getPokemonList();
+const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+const data = await response.json() as PokemonList;
 ---
 
 <MainLayout
@@ -27,9 +28,12 @@ const data = await getPokemonList();
 
 		<Divider />
 
-		<section class={styles.pokemonWrapper}>
+		<section
+			class={styles.pokemonWrapper}
+			aria-label="List of popular pokemon characters"
+		>
 			{data.results?.map((pokemon) => (
-				<p class={styles.item}>{pokemon.name}</p>
+				<PokemonCard name={pokemon.name} url={pokemon.url} />
 			))}
 		</section>
 	</div>

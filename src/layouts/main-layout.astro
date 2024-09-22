@@ -21,6 +21,8 @@ const { pageTitle, metaDescription, metaRobots } = Astro.props;
 		<meta name="robots" content={metaRobots} />
 	</head>
 	<body class="bg-slate-900 text-slate-100">
-		<slot />
+		<main>
+			<slot />
+		</main>
 	</body>
 </html>
