@@ -1,0 +1,37 @@
+---
+import type { GetStaticPaths } from "astro";
+import MainLayout from "../../layouts/main-layout.astro";
+import { capitalize } from "../../utils";
+import Divider from "../../components/divider.astro";
+
+export const getStaticPaths = (() => {
+  return [
+    { params: { name: 'bulbasaur' } },
+    { params: { name: 'ivysaur' } },
+    { params: { name: 'venusaur' } },
+  ];
+}) satisfies GetStaticPaths;
+
+const { name } = Astro.params;
+const pokemonCapitalized = capitalize(name);
+---
+
+<MainLayout
+  pageTitle={`${pokemonCapitalized} Pokemon`}
+  metaDescription={`A detailed view of the "${pokemonCapitalized}" pokemon character`}
+  metaRobots="index, follow"
+>
+  <div class="mainWrapper">
+    <h2 class="pageHeading">{pokemonCapitalized}</h2>
+    <Divider />
+  </div>
+</MainLayout>
+
+<style>
+  .mainWrapper {
+    @apply container mx-auto px-5 lg:px-0;
+  }
+  .pageHeading {
+    @apply text-5xl text-purple-600 text-center mt-8;
+  }
+</style>

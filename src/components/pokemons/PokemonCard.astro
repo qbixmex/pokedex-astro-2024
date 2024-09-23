@@ -16,13 +16,16 @@ const styles = {
 ---
 
 <section class={styles.card}>
-
-  <img
-    src={imageURL}
-    class={styles.image}
-    alt={`${name} pokemon`}
-  />
-
-  <h2 class={styles.name}>{name}</h2>
+  <a href={`/pokemons/${name}`}>
+    <img
+      src={imageURL}
+      class={styles.image}
+      alt={`${name} pokemon`}
+    />
+  </a>
+  <h2 class={styles.name}>
+    <a href={`/pokemons/${name}`}>{name}</a>
+  </h2>
+  
 
 </section>
