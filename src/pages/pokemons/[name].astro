@@ -3,16 +3,40 @@ import type { GetStaticPaths } from "astro";
 import MainLayout from "../../layouts/main-layout.astro";
 import { capitalize } from "../../utils";
 import Divider from "../../components/divider.astro";
+import PokemonCard from "../../components/pokemons/PokemonCard.astro";
+
+type Props = {
+  url: string;
+};
 
 export const getStaticPaths = (() => {
   return [
-    { params: { name: 'bulbasaur' } },
-    { params: { name: 'ivysaur' } },
-    { params: { name: 'venusaur' } },
+    {
+      params: { name: 'bulbasaur' },
+      props: { 
+        name: 'bulbasaur',
+        url: 'https://pokeapi.co/api/v2/pokemon/1/',
+      },
+    },
+    {
+      params: { name: 'ivysaur' },
+      props: { 
+        name: 'ivysaur',
+        url: 'https://pokeapi.co/api/v2/pokemon/2/',
+      },
+    },
+    {
+      params: { name: 'venusaur' },
+      props: { 
+        name: 'venusaur',
+        url: 'https://pokeapi.co/api/v2/pokemon/3/',
+      },
+    },
   ];
 }) satisfies GetStaticPaths;
 
 const { name } = Astro.params;
+const { url } = Astro.props;
 const pokemonCapitalized = capitalize(name);
 ---
 
@@ -22,8 +46,17 @@ const pokemonCapitalized = capitalize(name);
   metaRobots="index, follow"
 >
   <div class="mainWrapper">
-    <h2 class="pageHeading">{pokemonCapitalized}</h2>
+    <h2 class="pageHeading" style={{ display: 'block' }}>{pokemonCapitalized}</h2>
     <Divider />
+
+    <PokemonCard
+      name={name}
+      url={url}
+      cssClasses="mb-5"
+      playAudio
+    />
+
+    <a class="backLink" href="/">{'←'} Back Home</a>
   </div>
 </MainLayout>
 
@@ -33,5 +66,8 @@ const pokemonCapitalized = capitalize(name);
   }
   .pageHeading {
     @apply text-5xl text-purple-600 text-center mt-8;
+  }
+  .backLink {
+    @apply text-blue-500 hover:underline;
   }
 </style>

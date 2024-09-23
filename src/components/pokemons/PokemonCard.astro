@@ -2,30 +2,52 @@
 type Props = {
   name: string;
   url: string;
+  playAudio?: boolean;
+  cssClasses?: string;
+  style?: astroHTML.JSX.CSSProperties;
 };
 
-const { name, url } = Astro.props;
+const { name, url, playAudio = false, cssClasses = '', style } = Astro.props;
 const pokemonId = url.split('/').at(-2);
 const imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`;
-
-const styles = {
-  card: 'bg-slate-800 border border-slate-100 rounded p-4 flex flex-col justify-center items-center',
-  image: 'w-full h-auto',
-  name: 'capitalize text-xl font-bold text-sky-500',
-};
+const id = url.split('/').at(-2);
+const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
 ---
 
-<section class={styles.card}>
+<section class:list={['card', ...(cssClasses ? [cssClasses] : [])]} style={style}>
   <a href={`/pokemons/${name}`}>
     <img
       src={imageURL}
-      class={styles.image}
+      class="pokemonImage"
       alt={`${name} pokemon`}
     />
   </a>
-  <h2 class={styles.name}>
+
+  { playAudio && (
+    <audio id="pokemon-screan" controls class="my-5">
+      <source src={audioSource} type="audio/ogg" />
+      Your browser does not support the audio element.
+    </audio>
+  )}
+
+  <h2 class="pokemonName">
     <a href={`/pokemons/${name}`}>{name}</a>
   </h2>
-  
-
 </section>
+
+<script>
+  const audio = document.getElementById("pokemon-screan") as HTMLAudioElement;
+  audio.volume = 0.2;
+</script>
+
+<style>
+  .card {
+    @apply bg-slate-800 border border-slate-100 rounded p-4 flex flex-col justify-center items-center;
+  }
+  .pokemonImage {
+    @apply w-full h-auto;
+  }
+  .pokemonName {
+    @apply capitalize text-xl font-bold text-sky-500;
+  }
+</style>
