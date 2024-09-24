@@ -33,7 +33,10 @@ const data = await getPokemonList(); // This is local data
 			aria-label="List of popular pokemon characters"
 		>
 			{data.results?.map((pokemon) => (
-				<PokemonCard name={pokemon.name} url={pokemon.url} />
+				<PokemonCard
+					name={pokemon.name}
+					url={pokemon.url}
+				/>
 			))}
 		</section>
 	</div>

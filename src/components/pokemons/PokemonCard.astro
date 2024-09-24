@@ -3,18 +3,32 @@ type Props = {
   name: string;
   url: string;
   playAudio?: boolean;
+  isForPageDetails?: boolean;
   cssClasses?: string;
   style?: astroHTML.JSX.CSSProperties;
 };
 
-const { name, url, playAudio = false, cssClasses = '', style } = Astro.props;
+const {
+  name,
+  url,
+  playAudio = false,
+  cssClasses = '',
+  style,
+  isForPageDetails = false,
+} = Astro.props;
 const pokemonId = url.split('/').at(-2);
 const imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`;
 const id = url.split('/').at(-2);
 const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
 ---
 
-<section class:list={['card', ...(cssClasses ? [cssClasses] : [])]} style={style}>
+<section class:list={[
+  {
+    card: !isForPageDetails,
+    cardDetails: isForPageDetails,
+  },
+  ...(cssClasses ? [cssClasses] : [])
+]} style={style}>
   <a href={`/pokemons/${name}`}>
     <img
       src={imageURL}
@@ -30,9 +44,11 @@ const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/
     </audio>
   )}
 
-  <h2 class="pokemonName">
-    <a href={`/pokemons/${name}`}>{name}</a>
-  </h2>
+  {!isForPageDetails && (
+    <h2 class="pokemonName">
+      <a href={`/pokemons/${name}`}># {id} - {name}</a>
+    </h2>
+  )}
 </section>
 
 <script>
@@ -43,6 +59,9 @@ const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/
 <style>
   .card {
     @apply bg-slate-800 border border-slate-100 rounded p-4 flex flex-col justify-center items-center;
+  }
+  .cardDetails {
+    @apply flex flex-col justify-center items-center;
   }
   .pokemonImage {
     @apply w-full h-auto;
