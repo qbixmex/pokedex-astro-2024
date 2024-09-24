@@ -1,38 +1,30 @@
 ---
 import type { GetStaticPaths } from "astro";
+import type { PokemonList } from "../../types/pokemon";
 import MainLayout from "../../layouts/main-layout.astro";
 import { capitalize } from "../../utils";
 import Divider from "../../components/divider.astro";
 import PokemonCard from "../../components/pokemons/PokemonCard.astro";
+import { get151Pokemons } from "../../services/get-pokemon-list";
 
 type Props = {
   url: string;
 };
 
-export const getStaticPaths = (() => {
-  return [
-    {
-      params: { name: 'bulbasaur' },
-      props: { 
-        name: 'bulbasaur',
-        url: 'https://pokeapi.co/api/v2/pokemon/1/',
-      },
+export const getStaticPaths = (async () => {
+
+  const { results } = await get151Pokemons(); // This is local data
+  // const result = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  // const { results } = await result.json() as PokemonList;
+
+  return results.map((pokemon) => ({
+    params: { name: pokemon.name },
+    props: {
+      name: pokemon.name,
+      url: pokemon.url
     },
-    {
-      params: { name: 'ivysaur' },
-      props: { 
-        name: 'ivysaur',
-        url: 'https://pokeapi.co/api/v2/pokemon/2/',
-      },
-    },
-    {
-      params: { name: 'venusaur' },
-      props: { 
-        name: 'venusaur',
-        url: 'https://pokeapi.co/api/v2/pokemon/3/',
-      },
-    },
-  ];
+  }));
+
 }) satisfies GetStaticPaths;
 
 const { name } = Astro.params;
@@ -49,14 +41,16 @@ const pokemonCapitalized = capitalize(name);
     <h2 class="pageHeading" style={{ display: 'block' }}>{pokemonCapitalized}</h2>
     <Divider />
 
-    <PokemonCard
-      name={name}
-      url={url}
-      cssClasses="mb-5"
-      playAudio
-    />
+    <section id="content">
+      <PokemonCard
+        name={name}
+        url={url}
+        cssClasses="mb-5"
+        playAudio
+      />
+      <a class="backLink" href="/">{'←'} Back</a>
+    </section>
 
-    <a class="backLink" href="/">{'←'} Back Home</a>
   </div>
 </MainLayout>
 
@@ -67,7 +61,10 @@ const pokemonCapitalized = capitalize(name);
   .pageHeading {
     @apply text-5xl text-purple-600 text-center mt-8;
   }
+  #content {
+    @apply w-full mx-auto md:max-w-[600px];
+  }
   .backLink {
-    @apply text-blue-500 hover:underline;
+    @apply block w-full text-center bg-blue-600 text-white px-0 py-4 mt-5 rounded hover:bg-blue-700 transition-colors md:w-fit md:px-5;
   }
 </style>
