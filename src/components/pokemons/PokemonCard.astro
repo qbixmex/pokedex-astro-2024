@@ -34,6 +34,7 @@ const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/
       src={imageURL}
       class="pokemonImage"
       alt={`${name} pokemon`}
+      transition:name={`${name}-pokemon`}
     />
   </a>
 
@@ -64,7 +65,7 @@ const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/
     @apply flex flex-col justify-center items-center;
   }
   .pokemonImage {
-    @apply w-full h-auto;
+    @apply w-full h-auto max-w-[475px];
   }
   .pokemonName {
     @apply capitalize text-xl font-bold text-sky-500;
