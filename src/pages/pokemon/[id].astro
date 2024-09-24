@@ -1,15 +1,11 @@
 ---
 import type { GetStaticPaths } from "astro";
-import type { PokemonList } from "../../types/pokemon";
+// import type { PokemonList } from "../../types/pokemon";
 import MainLayout from "../../layouts/main-layout.astro";
 import { capitalize } from "../../utils";
 import Divider from "../../components/divider.astro";
 import PokemonCard from "../../components/pokemons/PokemonCard.astro";
 import { get151Pokemons } from "../../services/get-pokemon-list";
-
-type Props = {
-  url: string;
-};
 
 export const getStaticPaths = (async () => {
 
@@ -17,18 +13,25 @@ export const getStaticPaths = (async () => {
   // const result = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
   // const { results } = await result.json() as PokemonList;
 
-  return results.map((pokemon) => ({
-    params: { name: pokemon.name },
-    props: {
-      name: pokemon.name,
-      url: pokemon.url
-    },
-  }));
+  return results.map((pokemon) => {
+    const pokemonId = pokemon.url.split('/').at(-2);
+    return {
+      params: { id: pokemonId },
+      props: {
+        name: pokemon.name,
+        url: pokemon.url,
+      },
+    };
+  });
 
 }) satisfies GetStaticPaths;
 
-const { name } = Astro.params;
-const { url } = Astro.props;
+type Props = {
+  name: string;
+  url: string;
+};
+
+const { name, url } = Astro.props;
 const pokemonCapitalized = capitalize(name);
 ---
 
@@ -39,19 +42,17 @@ const pokemonCapitalized = capitalize(name);
 >
   <div class="mainWrapper">
     <h2 class="pageHeading">{pokemonCapitalized}</h2>
-
     <Divider />
 
     <section id="content">
       <PokemonCard
-        name={name}
+        name={pokemonCapitalized}
         url={url}
         cssClasses="mb-5"
         isForPageDetails
         playAudio
       />
     </section>
-
   </div>
 </MainLayout>
 

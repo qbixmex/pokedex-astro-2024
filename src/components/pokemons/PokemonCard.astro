@@ -18,8 +18,7 @@ const {
 } = Astro.props;
 const pokemonId = url.split('/').at(-2);
 const imageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png`;
-const id = url.split('/').at(-2);
-const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${id}.ogg`;
+const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${pokemonId}.ogg`;
 ---
 
 <section class:list={[
@@ -29,12 +28,12 @@ const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/
   },
   ...(cssClasses ? [cssClasses] : [])
 ]} style={style}>
-  <a href={`/pokemons/${name}`}>
+  <a href={`/pokemon/${pokemonId}`}>
     <img
       src={imageURL}
       class="pokemonImage"
       alt={`${name} pokemon`}
-      transition:name={`${name}-pokemon`}
+      transition:name={`${pokemonId}-pokemon`}
     />
   </a>
 
@@ -47,7 +46,7 @@ const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/
 
   {!isForPageDetails && (
     <h2 class="pokemonName">
-      <a href={`/pokemons/${name}`}># {id} - {name}</a>
+      # {pokemonId} - {name}
     </h2>
   )}
 </section>
