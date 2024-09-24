@@ -1,11 +1,10 @@
 ---
 import type { GetStaticPaths } from "astro";
-import type { PokemonList } from "../../types/pokemon";
-import MainLayout from "../../layouts/main-layout.astro";
-import { capitalize } from "../../utils";
-import Divider from "../../components/divider.astro";
-import PokemonCard from "../../components/pokemons/PokemonCard.astro";
-import { get151Pokemons } from "../../services/get-pokemon-list";
+import type { PokemonList } from "@interfaces/pokemon";
+import MainLayout from "@layouts/main-layout.astro";
+import { capitalize } from "@utils/helpers";
+import { Divider, PokemonCard } from '@components/index';
+import { get151Pokemons } from "@services/get-pokemon-list";
 
 type Props = {
   url: string;

@@ -1,9 +1,8 @@
 ---
-import Divider from '../components/divider.astro';
-import PokemonCard from '../components/pokemons/PokemonCard.astro';
-import MainLayout from '../layouts/main-layout.astro';
-import { getPokemonList } from '../services/get-pokemon-list';
-import type { PokemonList } from '../types/pokemon';
+import { Divider, PokemonCard } from '@components/index';
+import MainLayout from '@layouts/main-layout.astro';
+import { getPokemonList } from '@services/get-pokemon-list';
+import type { PokemonList } from '@interfaces/pokemon';
 
 const pageTitle = 'Pokemon List';
 

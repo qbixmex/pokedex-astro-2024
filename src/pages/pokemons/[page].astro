@@ -1,9 +1,8 @@
 ---
 import type { GetStaticPaths } from "astro";
-import Divider from '../../components/divider.astro';
-import PokemonCard from '../../components/pokemons/PokemonCard.astro';
-import MainLayout from '../../layouts/main-layout.astro';
-import { get151Pokemons } from '../../services/get-pokemon-list';
+import { Divider, PokemonCard } from '@components/index';
+import MainLayout from '@layouts/main-layout.astro';
+import { get151Pokemons } from '@services/get-pokemon-list';
 // import type { PokemonList } from '../../types/pokemon';
 
 export const getStaticPaths = (async ({ paginate }) => {
