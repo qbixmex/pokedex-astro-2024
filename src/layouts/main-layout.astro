@@ -1,7 +1,7 @@
 ---
-// import { ViewTransitions } from 'astro:transitions';
 import type { MetaRobots } from '@interfaces/index';
 import { siteInfo } from '@src/constants';
+import Navbar from "@components/shared/navbar.astro";
 
 type Props = {
 	pageTitle?: string;
@@ -31,16 +31,22 @@ const {
 		<meta name="og:title" content={pageTitle} />
 		<meta name="og:description" content={metaDescription} />
 		<meta name="og:image" content={siteInfo.image} />
-		<!-- <ViewTransitions /> -->
-		<style>
-			@view-transition {
-				navigation: auto;
-			}
-		</style>
 	</head>
-	<body class="bg-slate-900 text-slate-100">
+	<body>
+		<header>
+			<Navbar />
+		</header>
 		<main>
 			<slot />
 		</main>
 	</body>
 </html>
+
+<style>
+	body {
+		@apply bg-slate-900 text-slate-100;
+	}
+	@view-transition {
+		navigation: auto;
+	}
+</style>

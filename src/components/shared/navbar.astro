@@ -1,0 +1,77 @@
+---
+type Link = {
+  href: string;
+  label: string;
+};
+
+const links: Link[] = [
+  {
+    href: "/",
+    label: "List",
+  },
+  {
+    href: "/pokemons/1",
+    label: "Paginated",
+  },
+  {
+    href: "/favorites",
+    label: "Favorites",
+  }
+];
+
+const currentPath = Astro.url.pathname;
+const pathSegments = currentPath.split("/");
+
+console.log(pathSegments);
+---
+
+<nav id="navbar">
+  <div id="navbarContainer">
+    {
+      links.map((link) => {
+        const isActive =
+          (link.href === "/" && pathSegments.at(1) === "")
+          || link.href.split("/").at(1) === pathSegments.at(1);
+
+        return (
+          <div>
+            <a
+              href={link.href}
+              class:list={["link", {
+                active: isActive
+              }]}
+            >{link.label}</a>
+            {
+              isActive ? (
+                <div transition:name="link-underline" id="linkUnderline"></div>
+              ) : (
+                <div id="ghostUnderline"></div>
+              )
+            }
+          </div>
+        );
+      })
+    }
+  </div>
+</nav>
+
+<style>
+  #navbar {
+    @apply bg-slate-900;
+  }
+  #navbarContainer {
+    @apply container flex items-center justify-center p-6 mx-auto capitalize font-bold;
+  }
+  .link {
+    @apply hover:text-blue-400 mx-1.5 sm:mx-6;
+  }
+  .active {
+    @apply text-blue-400;
+  }
+  #linkUnderline {
+    @apply border-b-2 border-blue-500 mx-4 mt-1;
+  }
+  #ghostUnderline {
+    @apply border-b-2 border-transparent mt-1;
+  }
+</style>
