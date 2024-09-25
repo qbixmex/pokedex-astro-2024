@@ -2,13 +2,13 @@
 import type { GetStaticPaths } from "astro";
 import { Divider, PokemonCard } from '@components/index';
 import MainLayout from '@layouts/main-layout.astro';
-import { get151Pokemons } from '@services/get-pokemon-list';
-// import type { PokemonList } from '../../types/pokemon';
+// import { get151Pokemons } from '@services/get-pokemon-list';
+import type { PokemonList } from '@interfaces/index';
 
 export const getStaticPaths = (async ({ paginate }) => {
-	const { results } = await get151Pokemons(); // This is local data
-	// const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
-	// const data = await response.json() as PokemonList;
+	// const { results } = await get151Pokemons(); // This is local data
+	const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+	const { results } = await response.json() as PokemonList;
 
 	return paginate(results, { pageSize: 20 });
 }) satisfies GetStaticPaths;
@@ -17,11 +17,7 @@ const pageTitle = 'Pokemon List';
 const { page } = Astro.props;
 ---
 
-<MainLayout
-	pageTitle={pageTitle}
-	metaDescription="A list of the most popular pokemon characters"
-	metaRobots="index, follow"
->
+<MainLayout>
 	<div id="mainWrapper">
 		<h1 id="heading">{pageTitle}</h1>
 

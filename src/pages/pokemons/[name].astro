@@ -4,7 +4,7 @@ import type { PokemonList } from "@interfaces/pokemon";
 import MainLayout from "@layouts/main-layout.astro";
 import { capitalize } from "@utils/helpers";
 import { Divider, PokemonCard } from '@components/index';
-import { get151Pokemons } from "@services/get-pokemon-list";
+// import { get151Pokemons } from "@services/get-pokemon-list";
 
 type Props = {
   url: string;
@@ -12,9 +12,9 @@ type Props = {
 
 export const getStaticPaths = (async () => {
 
-  const { results } = await get151Pokemons(); // This is local data
-  // const result = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
-  // const { results } = await result.json() as PokemonList;
+  // const { results } = await get151Pokemons(); // This is local data
+  const result = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
+  const { results } = await result.json() as PokemonList;
 
   return results.map((pokemon) => ({
     params: { name: pokemon.name },

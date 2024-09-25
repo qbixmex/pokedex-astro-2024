@@ -1,4 +1,4 @@
-import type { PokemonList } from "../types/pokemon";
+import type { PokemonList } from "@interfaces/index";
 import pokemonList from "../data/pokemon-list.json";
 import pokemons151 from "../data/151-pokemons.json";
 

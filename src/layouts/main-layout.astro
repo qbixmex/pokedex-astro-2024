@@ -1,14 +1,19 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
 import type { MetaRobots } from '@interfaces/index';
+import { siteInfo } from '@src/constants';
 
 type Props = {
-	pageTitle: string;
-	metaDescription: string;
-	metaRobots: MetaRobots;
+	pageTitle?: string;
+	metaDescription?: string;
+	metaRobots?: MetaRobots;
 };
 
-const { pageTitle, metaDescription, metaRobots } = Astro.props;
+const {
+	pageTitle = siteInfo.title,
+	metaDescription = siteInfo.description,
+	metaRobots = "index, follow",
+} = Astro.props;
 ---
 
 <html lang="en">
@@ -17,9 +22,15 @@ const { pageTitle, metaDescription, metaRobots } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{pageTitle} - Pokedex</title>
+		<title>{pageTitle}</title>
+		<!-- SEO -->
 		<meta name="description" content={metaDescription} />
 		<meta name="robots" content={metaRobots} />
+		<meta name="author" content="Daniel González" />
+		<!-- OG Tags -->
+		<meta name="og:title" content={pageTitle} />
+		<meta name="og:description" content={metaDescription} />
+		<meta name="og:image" content={siteInfo.image} />
 		<ViewTransitions />
 	</head>
 	<body class="bg-slate-900 text-slate-100">

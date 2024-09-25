@@ -1,7 +1,7 @@
 ---
 import { Divider, PokemonCard } from '@components/index';
 import MainLayout from '@layouts/main-layout.astro';
-import { getPokemonList } from '@services/get-pokemon-list';
+// import { getPokemonList } from '@services/get-pokemon-list'; // This is local data
 import type { PokemonList } from '@interfaces/pokemon';
 
 const pageTitle = 'Pokemon List';
@@ -12,16 +12,12 @@ const styles = {
 	pokemonWrapper: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5',
 };
 
-const data = await getPokemonList(); // This is local data
-// const response = await fetch('https://pokeapi.co/api/v2/pokemon');
-// const data = await response.json() as PokemonList;
+// const data = await getPokemonList(); // This is local data
+const response = await fetch('https://pokeapi.co/api/v2/pokemon');
+const data = await response.json() as PokemonList;
 ---
 
-<MainLayout
-	pageTitle={pageTitle}
-	metaDescription="A list of the most popular pokemon characters"
-	metaRobots="index, follow"
->
+<MainLayout>
 	<div class={styles.mainWrapper}>
 		<h1 class={styles.heading}>{pageTitle}</h1>
 
