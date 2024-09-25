@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+// import { ViewTransitions } from 'astro:transitions';
 import type { MetaRobots } from '@interfaces/index';
 import { siteInfo } from '@src/constants';
 
@@ -31,7 +31,12 @@ const {
 		<meta name="og:title" content={pageTitle} />
 		<meta name="og:description" content={metaDescription} />
 		<meta name="og:image" content={siteInfo.image} />
-		<ViewTransitions />
+		<!-- <ViewTransitions /> -->
+		<style>
+			@view-transition {
+				navigation: auto;
+			}
+		</style>
 	</head>
 	<body class="bg-slate-900 text-slate-100">
 		<main>
