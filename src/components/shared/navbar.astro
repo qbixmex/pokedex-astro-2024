@@ -21,9 +21,7 @@ const links: Link[] = [
 
 const currentPath = Astro.url.pathname;
 const pathSegments = currentPath.split("/");
-
-console.log(pathSegments);
----
+  ---
 
 <nav id="navbar">
   <div id="navbarContainer">
@@ -60,7 +58,7 @@ console.log(pathSegments);
     @apply bg-slate-900;
   }
   #navbarContainer {
-    @apply container flex items-center justify-center p-6 mx-auto capitalize font-bold;
+    @apply container flex items-center justify-center gap-5 mt-6 mx-auto capitalize font-bold;
   }
   .link {
     @apply hover:text-blue-400 mx-1.5 sm:mx-6;
@@ -69,7 +67,7 @@ console.log(pathSegments);
     @apply text-blue-400;
   }
   #linkUnderline {
-    @apply border-b-2 border-blue-500 mx-4 mt-1;
+    @apply border-b-2 border-blue-500 mx-0 lg:mx-4 mt-1;
   }
   #ghostUnderline {
     @apply border-b-2 border-transparent mt-1;

@@ -4,6 +4,7 @@ import type { PokemonList } from "@interfaces/index";
 import MainLayout from "@layouts/main-layout.astro";
 import { capitalize } from "@utils/helpers";
 import { Divider, PokemonCard } from '@components/index';
+import Heading from "@components/shared/heading.astro";
 // import { get151Pokemons } from "@services/get-pokemon-list"; // This is local data
 
 export const getStaticPaths = (async () => {
@@ -40,7 +41,8 @@ const pokemonCapitalized = capitalize(name);
   metaRobots="index, follow"
 >
   <div class="mainWrapper">
-    <h2 class="pageHeading">{pokemonCapitalized}</h2>
+    <Heading>{pokemonCapitalized}</Heading>
+
     <Divider />
 
     <section id="content">
@@ -51,6 +53,10 @@ const pokemonCapitalized = capitalize(name);
         isForPageDetails
         playAudio
       />
+
+      <button onclick="history.back()" class="backButton">
+        Back
+      </button>
     </section>
   </div>
 </MainLayout>
@@ -59,13 +65,10 @@ const pokemonCapitalized = capitalize(name);
   .mainWrapper {
     @apply container mx-auto px-5 lg:px-0;
   }
-  .pageHeading {
-    @apply text-5xl text-purple-600 text-center mt-8;
-  }
   #content {
     @apply w-full mx-auto md:max-w-[600px];
   }
-  .backLink {
-    @apply block w-full text-center bg-blue-600 text-white px-0 py-4 mt-5 rounded hover:bg-blue-700 transition-colors md:w-fit md:px-5;
+  .backButton {
+    @apply bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded transition-colors;
   }
 </style>

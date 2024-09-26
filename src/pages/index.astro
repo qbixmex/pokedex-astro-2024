@@ -3,12 +3,12 @@ import { Divider, PokemonCard } from '@components/index';
 import MainLayout from '@layouts/main-layout.astro';
 // import { getPokemonList } from '@services/get-pokemon-list'; // This is local data
 import type { PokemonList } from '@interfaces/pokemon';
+import Heading from '@components/shared/heading.astro';
 
 const pageTitle = 'Pokemon List';
 
 const styles = {
 	mainWrapper: 'container px-5 mx-auto',
-	heading: 'text-5xl text-purple-500/80 font-bold text-center mt-8',
 	pokemonWrapper: 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5',
 };
 
@@ -19,7 +19,7 @@ const data = await response.json() as PokemonList;
 
 <MainLayout>
 	<div class={styles.mainWrapper}>
-		<h1 class={styles.heading}>{pageTitle}</h1>
+		<Heading>{pageTitle}</Heading>
 
 		<Divider />
 
