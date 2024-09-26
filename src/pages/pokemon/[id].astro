@@ -5,7 +5,7 @@ import MainLayout from "@layouts/main-layout.astro";
 import { capitalize } from "@utils/helpers";
 import { Divider, PokemonCard } from '@components/index';
 import Heading from "@components/shared/heading.astro";
-// import { get151Pokemons } from "@services/get-pokemon-list"; // This is local data
+import { Icon } from "astro-icon/components";
 
 export const getStaticPaths = (async () => {
 
@@ -32,6 +32,7 @@ type Props = {
 };
 
 const { name, url } = Astro.props;
+const id = url.split("/").at(-2);
 const pokemonCapitalized = capitalize(name);
 ---
 
@@ -41,7 +42,17 @@ const pokemonCapitalized = capitalize(name);
   metaRobots="index, follow"
 >
   <div class="mainWrapper">
-    <Heading>{pokemonCapitalized}</Heading>
+    <div class="flex justify-center items-center gap-8 mt-8">
+      <Heading>{pokemonCapitalized}</Heading>
+
+      <button id="favorite" data-name={name} data-id={id}>
+        <Icon
+          class:list="favotiteIcon"
+          name={`heart-${true ? "outline" : "filled"}`}
+          size={50}
+        />
+      </button>
+    </div>
 
     <Divider />
 
@@ -60,6 +71,40 @@ const pokemonCapitalized = capitalize(name);
     </section>
   </div>
 </MainLayout>
+
+<script>
+  type FavoritePokemon = {
+    id: string;
+    name: string;
+  };
+
+  // Use this if you are using <UseTransition /> component 
+  // document.addEventListener("astro:page-load", () => {
+  //   const btnFavorite = document.getElementById("favorite") as HTMLButtonElement;
+  
+  //   const favoritePokemon: FavoritePokemon = {
+  //     id: btnFavorite.dataset.id!,
+  //     name: btnFavorite.dataset.name!,
+  //   };
+  
+  //   btnFavorite.addEventListener("click", () => {
+  //     console.log("Favorite Pokemon:", favoritePokemon);
+  //   });
+  // });
+
+  const btnFavorite = document.getElementById("favorite") as HTMLButtonElement | null;
+
+  if (!btnFavorite) return;
+
+  const favoritePokemon: FavoritePokemon = {
+    id: btnFavorite.dataset.id ?? "",
+    name: btnFavorite.dataset.name ?? "",
+  };
+
+  btnFavorite.addEventListener("click", () => {
+    console.log("Favorite Pokemon:", favoritePokemon);
+  });
+</script>
 
 <style>
   .mainWrapper {

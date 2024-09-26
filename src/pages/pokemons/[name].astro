@@ -29,6 +29,7 @@ export const getStaticPaths = (async () => {
 
 const { name } = Astro.params;
 const { url } = Astro.props;
+const id = url.split("/").at(-2);
 const pokemonCapitalized = capitalize(name);
 ---
 
@@ -41,7 +42,7 @@ const pokemonCapitalized = capitalize(name);
     <div class="flex justify-center items-center gap-8 mt-8">
       <Heading>{pokemonCapitalized}</Heading>
 
-      <button id="favorite">
+      <button id="favorite" data-name={name} data-id={id}>
         <Icon
           class:list="favotiteIcon"
           name={`heart-${true ? "outline" : "filled"}`}
@@ -67,6 +68,7 @@ const pokemonCapitalized = capitalize(name);
     </section>
 
   </div>
+
 </MainLayout>
 
 <style>

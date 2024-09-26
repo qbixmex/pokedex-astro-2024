@@ -52,8 +52,10 @@ const audioSource = `https://raw.githubusercontent.com/PokeAPI/cries/main/cries/
 </section>
 
 <script>
-  const audio = document.getElementById("pokemon-screan") as HTMLAudioElement;
-  audio.volume = 0.2;
+  const audio = document.getElementById("pokemon-screan") as HTMLAudioElement | null;
+  if (audio) {
+    audio.volume = 0.2;
+  }
 </script>
 
 <style>
