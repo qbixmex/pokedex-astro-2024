@@ -2,6 +2,7 @@
 import type { MetaRobots } from '@interfaces/index';
 import { siteInfo } from '@src/constants';
 import Navbar from "@components/shared/navbar.astro";
+import { ViewTransitions } from 'astro:transitions';
 
 type Props = {
 	pageTitle?: string;
@@ -31,6 +32,7 @@ const {
 		<meta name="og:title" content={pageTitle} />
 		<meta name="og:description" content={metaDescription} />
 		<meta name="og:image" content={siteInfo.image} />
+		<ViewTransitions />
 	</head>
 	<body>
 		<header>
