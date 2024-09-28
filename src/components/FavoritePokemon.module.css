@@ -1,0 +1,15 @@
+.card {
+  @apply relative flex flex-col items-center justify-center p-4 bg-slate-800 rounded-lg;
+}
+
+.cardHeading {
+  @apply text-2xl text-sky-500 text-center;
+}
+
+.cardImage {
+  @apply w-full h-auto;
+}
+
+.cardRemoveBtn {
+  @apply absolute right-5 top-5 text-red-500 hover:text-red-600 text-2xl transition-colors;
+}

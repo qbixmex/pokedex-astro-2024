@@ -1,10 +1,7 @@
 ---
 import MainLayout from "@layouts/main-layout.astro";
 import Heading from "@components/shared/heading.astro";
-import { Divider } from "@root/src/components";
-import Counter from "@components/Counter";
-
-const counterValue = 20;
+import { Divider, FavoritePokemons } from "@components/index";
 ---
 
 <MainLayout
@@ -12,40 +9,17 @@ const counterValue = 20;
   metaDescription="List of your favorite pokemons"
   metaRobots="noindex, nofollow"
 >
-  <div class="mainWrapper">
-    <div class="flex justify-center items-center gap-4 mt-8">
-      <Heading>Favorite Pokemons</Heading>
-    </div>
+  <section id="content">
+    <Heading>Favorite Pokemons</Heading>
 
     <Divider />
-
-    <section id="content">
-      <video
-        controls
-        autoplay={false}
-        transition:persist="playing-video"
-        style={{ width: "100%" }}
-      >
-        <source src="https://ia804502.us.archive.org/33/items/GoldenGa1939_3/GoldenGa1939_3_512kb.mp4" type="video/mp4">
-      </video>
-
-      <Divider />
-
-      <Counter
-        client:visible
-        transition:persist="counter"
-        initialValue={counterValue}
-      >Counter</Counter>
-    </section>
-  </div>
+    <FavoritePokemons client:only="solid-js" />
+  </section>
 </MainLayout>
 
 <style>
-  .mainWrapper {
-    @apply container mx-auto px-5 lg:px-0;
-  }
   #content {
-    @apply w-full mx-auto md:max-w-[600px];
+    @apply container px-5 mx-auto md:px-0;
     & h2 {
       @apply text-2xl font-bold text-center;
     }

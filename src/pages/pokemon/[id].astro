@@ -79,10 +79,7 @@ const pokemonCapitalized = capitalize(name);
 </MainLayout>
 
 <script>
-  type FavoritePokemon = {
-    id: string;
-    name: string;
-  };
+  import type { FavoritePokemon } from "@interfaces/pokemon";
 
   const pokemonKeyStorage = "favorite-pokemons";
 
@@ -114,7 +111,10 @@ const pokemonCapitalized = capitalize(name);
           favoritePokemons = favoritePokemons.filter((item) => item.id !== favoritePokemon.id);
         } else {
           // Add Pokemon to favorites if it's not there
-          favoritePokemons.push(favoritePokemon);
+          favoritePokemons.push({
+            id: Number(favoritePokemon.id),
+            name: favoritePokemon.name,
+          });
         }
 
         localStorage.setItem(pokemonKeyStorage, JSON.stringify(favoritePokemons));
