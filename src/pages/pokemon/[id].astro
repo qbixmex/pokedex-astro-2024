@@ -98,11 +98,19 @@ const pokemonCapitalized = capitalize(name);
         name: btnFavorite.dataset.name ?? "undefined-name",
       };
 
-      const toggleFavoritePokemon = () => {
-        // Remove Pokemon from favorites if it's already there
-        const isFavorite = favoritePokemons.some((item) => item.id === favoritePokemon.id);
+      const isFavorite = favoritePokemons.some((item) => item.id === favoritePokemon.id);
 
+      const heartOutlineIcon = btnFavorite.querySelector("[data-heart-outline-icon]") as HTMLElement | null;
+      const heartFilledIcon = btnFavorite.querySelector("[data-heart-filled-icon]") as HTMLElement | null;
+
+      if (isFavorite) {
+        heartOutlineIcon?.classList.add("hidden");
+        heartFilledIcon?.classList.remove("hidden");
+      }
+
+      const toggleFavoritePokemon = () => {
         if (isFavorite) {
+          // Remove Pokemon from favorites if it's already there
           favoritePokemons = favoritePokemons.filter((item) => item.id !== favoritePokemon.id);
         } else {
           // Add Pokemon to favorites if it's not there
@@ -111,13 +119,10 @@ const pokemonCapitalized = capitalize(name);
 
         localStorage.setItem(pokemonKeyStorage, JSON.stringify(favoritePokemons));
       };
-
-      const heartOutlineIcon = btnFavorite.querySelector("[data-heart-outline-icon]") as HTMLElement;
-      const heartFilledIcon = btnFavorite.querySelector("[data-heart-filled-icon]") as HTMLElement;
     
       btnFavorite.addEventListener("click", () => {
-        heartOutlineIcon.classList.toggle("hidden");
-        heartFilledIcon.classList.toggle("hidden");
+        heartOutlineIcon?.classList.toggle("hidden");
+        heartFilledIcon?.classList.toggle("hidden");
         toggleFavoritePokemon();
       });
     };
