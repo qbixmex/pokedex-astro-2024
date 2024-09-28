@@ -91,7 +91,7 @@ const pokemonCapitalized = capitalize(name);
 
     if (btnFavorite) {
       const favoritePokemon: FavoritePokemon = {
-        id: btnFavorite.dataset.id ?? "undefined-id",
+        id: Number(btnFavorite.dataset.id) ?? "undefined-id",
         name: btnFavorite.dataset.name ?? "undefined-name",
       };
 

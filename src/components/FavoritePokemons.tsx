@@ -1,7 +1,7 @@
 import { createSignal, For, type Component } from "solid-js";
 import type { FavoritePokemon } from "@interfaces/pokemon";
 import styles from "./FavoritePokemons.module.css";
-import FavoritePokemonCard from "./FavoritePokemon";
+import FavoritePokemonCard from "./FavoritePokemonCard";
 
 const getLocalStoragePokemons = (): FavoritePokemon[] => {
   return JSON.parse(localStorage.getItem("favorite-pokemons") ?? "[]");

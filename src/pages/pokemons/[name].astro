@@ -13,7 +13,6 @@ type Props = {
 
 export const getStaticPaths = (async () => {
 
-  // const { results } = await get151Pokemons(); // This is local data
   const result = await fetch('https://pokeapi.co/api/v2/pokemon?limit=151');
   const { results } = await result.json() as PokemonList;
 
@@ -44,9 +43,16 @@ const pokemonCapitalized = capitalize(name);
 
       <button id="favorite" data-name={name} data-id={id}>
         <Icon
-          class:list="favotiteIcon"
-          name={`heart-${true ? "outline" : "filled"}`}
+          class="favoriteIcon"
+          name="heart-outline"
           size={50}
+          data-heart-outline-icon
+        />
+        <Icon
+          class="favoriteIcon hidden"
+          name="heart-filled"
+          size={50}
+          data-heart-filled-icon
         />
       </button>
     </div>
@@ -71,6 +77,61 @@ const pokemonCapitalized = capitalize(name);
 
 </MainLayout>
 
+<script>
+  import type { FavoritePokemon } from "@interfaces/pokemon";
+
+  const pokemonKeyStorage = "favorite-pokemons";
+
+  const handlePageLoad = () => {
+
+    let favoritePokemons: FavoritePokemon[] = JSON.parse(localStorage.getItem(pokemonKeyStorage) ?? "[]");
+
+    const btnFavorite = document.getElementById("favorite") as HTMLButtonElement | null;
+
+    if (btnFavorite) {
+      const favoritePokemon: FavoritePokemon = {
+        id: Number(btnFavorite.dataset.id) ?? "undefined-id",
+        name: btnFavorite.dataset.name ?? "undefined-name",
+      };
+
+      const isFavorite = favoritePokemons.some((item) => item.id === favoritePokemon.id);
+
+      console.log("isFavorite:", isFavorite);
+
+      const heartOutlineIcon = btnFavorite.querySelector("[data-heart-outline-icon]") as HTMLElement | null;
+      const heartFilledIcon = btnFavorite.querySelector("[data-heart-filled-icon]") as HTMLElement | null;
+
+      if (isFavorite) {
+        heartOutlineIcon?.classList.add("hidden");
+        heartFilledIcon?.classList.remove("hidden");
+      }
+
+      const toggleFavoritePokemon = () => {
+        if (isFavorite) {
+          // Remove Pokemon from favorites if it's already there
+          favoritePokemons = favoritePokemons.filter((item) => item.id !== favoritePokemon.id);
+        } else {
+          // Add Pokemon to favorites if it's not there
+          favoritePokemons.push({
+            id: Number(favoritePokemon.id),
+            name: favoritePokemon.name,
+          });
+        }
+
+        localStorage.setItem(pokemonKeyStorage, JSON.stringify(favoritePokemons));
+      };
+    
+      btnFavorite.addEventListener("click", () => {
+        heartOutlineIcon?.classList.toggle("hidden");
+        heartFilledIcon?.classList.toggle("hidden");
+        toggleFavoritePokemon();
+      });
+    };
+  };
+
+  document.addEventListener("astro:page-load", handlePageLoad);
+</script>
+
 <style>
   .mainWrapper {
     @apply container mx-auto px-5 lg:px-0;
@@ -78,13 +139,10 @@ const pokemonCapitalized = capitalize(name);
   #content {
     @apply w-full mx-auto md:max-w-[600px];
   }
+  .favoriteIcon {
+    @apply text-red-500;
+  }
   .backButton {
     @apply bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded transition-colors;
-  }
-  #favorite {
-    @apply hover:animate-pulse;
-  }
-  .favotiteIcon {
-    @apply text-red-500;
   }
 </style>

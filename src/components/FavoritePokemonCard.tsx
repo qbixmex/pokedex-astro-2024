@@ -7,6 +7,7 @@ type Props = {
 };
 
 const FavoritePokemonCard: Component<Props> = ({ pokemon }) => {
+  const pokemonId = (pokemon.id as number).toString();
   const [ isVisible, setIsVisible ] = createSignal<Boolean>(true);
   const imageSrc = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`;
 
@@ -25,8 +26,12 @@ const FavoritePokemonCard: Component<Props> = ({ pokemon }) => {
   return (
     <Show when={isVisible()}>
       <div class={styles.card}>
-        <a href={`/pokemon/${pokemon.id}`}>
-          <img src={imageSrc} class={styles.cardImage} alt={`${pokemon.name} pokemon`} />
+        <a href={`/pokemons/${pokemon.name}`}>
+          <img
+            src={imageSrc}
+            class={styles.cardImage} alt={`${pokemon.name} pokemon`}
+            style={{ "view-transition-name": `${pokemon.name}-pokemon` }}
+          />
 
           <h3 class={styles.cardHeading}>
             #{pokemon.id} - {pokemon.name}
