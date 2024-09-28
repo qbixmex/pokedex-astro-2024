@@ -1,7 +1,11 @@
-import { createSignal } from "solid-js";
+import { createSignal, type Component } from "solid-js";
 
-const Counter = () => {
-  const [ counter, setCounter ] = createSignal(10);
+type Props = {
+  initialValue: number;
+};
+
+const Counter: Component<Props> = ({ initialValue }) => {
+  const [ counter, setCounter ] = createSignal(initialValue);
 
   return (
     <>
