@@ -22,7 +22,7 @@ const counterValue = 20;
     <section id="content">
       <video
         controls
-        autoplay
+        autoplay={false}
         transition:persist="playing-video"
         style={{ width: "100%" }}
       >
@@ -35,7 +35,7 @@ const counterValue = 20;
         client:visible
         transition:persist="counter"
         initialValue={counterValue}
-      />
+      >Counter</Counter>
     </section>
   </div>
 </MainLayout>

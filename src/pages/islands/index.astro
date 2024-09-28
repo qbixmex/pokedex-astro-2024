@@ -16,11 +16,11 @@ import Counter from "@components/Counter";
     </div>
 
     <Divider />
-    
+
     <section id="content">
       <video
         controls
-        autoplay
+        autoplay={false}
         transition:persist="playing-video"
         style={{ width: "100%", marginBottom: "40px" }}
       >
@@ -34,7 +34,7 @@ import Counter from "@components/Counter";
         transition:persist="counter"
         transition:persist-props
         initialValue={10}
-      />
+      >Counter</Counter>
     </section>
   </div>
 </MainLayout>

@@ -1,15 +1,16 @@
-import { createSignal, type Component } from "solid-js";
+import { createSignal, type Component, type JSX } from "solid-js";
 
 type Props = {
   initialValue: number;
+  children?: string;
 };
 
-const Counter: Component<Props> = ({ initialValue }) => {
-  const [ counter, setCounter ] = createSignal(initialValue);
+const Counter: Component<Props> = (props) => {
+  const [ counter, setCounter ] = createSignal(props.initialValue);
 
   return (
     <>
-      <h2 class="text-3xl text-orange-600 mb-5">Counter: {counter()}</h2>
+      <h2 class="text-3xl text-orange-600 mb-5">{props.children}: {counter()}</h2>
 
       <div class="flex gap-x-2">
         <button
