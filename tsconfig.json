@@ -11,6 +11,7 @@
       "@services/*": ["./src/services/*"],
       "@data/*": ["./src/data/*"],
       "@interfaces/*": ["./src/interfaces/*"],
+      "@enums/*": ["./src/enums/*"],
       "@utils/*": ["./src/utils/*"],
     }
   }

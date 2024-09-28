@@ -41,14 +41,21 @@ const pokemonCapitalized = capitalize(name);
   metaRobots="index, follow"
 >
   <div class="mainWrapper">
-    <div class="flex justify-center items-center gap-8 mt-8">
+    <div class="flex justify-center items-center gap-4 mt-8">
       <Heading>{pokemonCapitalized}</Heading>
 
       <button id="favorite" data-name={name} data-id={id}>
         <Icon
-          class:list="favotiteIcon"
-          name={`heart-${true ? "outline" : "filled"}`}
+          class="favoriteIcon"
+          name="heart-outline"
           size={50}
+          data-heart-outline-icon
+        />
+        <Icon
+          class="favoriteIcon hidden"
+          name="heart-filled"
+          size={50}
+          data-heart-filled-icon
         />
       </button>
     </div>
@@ -77,125 +84,46 @@ const pokemonCapitalized = capitalize(name);
     name: string;
   };
 
-  document.addEventListener(
-    "astro:before-preparation", // Event name
-    () => {
-      /*
-        An event that fires at the beginning of the preparation phase,
-        after navigation has started (e.g. after the user has clicked a link),
-        but before content is loaded.
+  const pokemonKeyStorage = "favorite-pokemons";
+
+  const handlePageLoad = () => {
+
+    let favoritePokemons: FavoritePokemon[] = JSON.parse(localStorage.getItem(pokemonKeyStorage) ?? "[]");
+
+    const btnFavorite = document.getElementById("favorite") as HTMLButtonElement | null;
+
+    if (btnFavorite) {
+      const favoritePokemon: FavoritePokemon = {
+        id: btnFavorite.dataset.id ?? "undefined-id",
+        name: btnFavorite.dataset.name ?? "undefined-name",
+      };
+
+      const toggleFavoritePokemon = () => {
+        // Remove Pokemon from favorites if it's already there
+        const isFavorite = favoritePokemons.some((item) => item.id === favoritePokemon.id);
+
+        if (isFavorite) {
+          favoritePokemons = favoritePokemons.filter((item) => item.id !== favoritePokemon.id);
+        } else {
+          // Add Pokemon to favorites if it's not there
+          favoritePokemons.push(favoritePokemon);
+        }
+
+        localStorage.setItem(pokemonKeyStorage, JSON.stringify(favoritePokemons));
+      };
+
+      const heartOutlineIcon = btnFavorite.querySelector("[data-heart-outline-icon]") as HTMLElement;
+      const heartFilledIcon = btnFavorite.querySelector("[data-heart-filled-icon]") as HTMLElement;
     
-        This event is used:
-    
-        To do something before loading has started, such as "Showing a Loading Spinner".
-        To alter loading, such as loading content you’ve defined in a template
-        rather than from the external URL.
-        To change the direction of the navigation
-        (which is usually either forward or backward) for custom animation.
-      */
-      console.log("1. astro:before-preparation");
-    },
-    { once: false } // Options: trigger only once
-  );
-
-  document.addEventListener(
-    "astro:after-preparation", // Event name
-    () => {
-      /*
-        An event that fires at the end of the preparation phase,
-        after the new page’s content has been loaded and parsed into a document.
-        This event occurs before the view transitions phase.
-
-        This example uses the astro:before-preparation event
-        to start a loading indicator and the astro:after-preparation event to stop it:
-      */
-      console.log("2. astro:after-preparation");
-    },
-    { once: false } // Options: trigger only once
-  );
-
-  document.addEventListener(
-    "astro:before-swap", // Event name
-    () => {
-      /*
-        An event that fires before the new document
-        (which is populated during the preparation phase)
-        replaces the current document.
-        This event occurs inside of the view transition,
-        where the user is still seeing a snapshot of the old page.
-
-        This event can be used to make changes before the swap occurs.
-        The newDocument property on the event represents the incoming document.
-        Here is an example of ensuring the browser’s light or dark mode preference
-        in localStorage is carried over to the new page:
-      */
-      console.log("3. astro:before-swap");
-    },
-    { once: false } // Options: trigger only once
-  );
-
-  document.addEventListener(
-    "astro:after-swap", // Event name
-    () => {
-      /*
-        An event that fires immediately after the new page replaces the old page.
-        You can listen to this event on the document and trigger actions
-        that will occur before the new page’s DOM elements render and scripts run.
-    
-        This event, when listened to on the outgoing page,
-        is useful to pass along and restore any state on the DOM that needs
-        to transfer over to the new page.
-    
-        This is the latest point in the lifecycle where it is still safe to,
-        for example, add a dark mode class name (<html class="dark-mode">),
-        though you may wish to do so in an earlier event.
-    
-        The astro:after-swap event occurs immediately after the browser history
-        has been updated and the scroll position has been set.
-        Therefore, one use of targeting this event is to override
-        the default scroll restore for history navigation.
-    
-        The following example resets the horizontal and vertical scroll position
-        to the top left corner of the page for each navigation.
-      */
-      console.log("4. astro:after-swap");
-    },
-    { once: false } // Options: trigger only once
-  );
-
-  document.addEventListener(
-    "astro:page-load", // Event name
-    () => {
-      /*
-        An event that fires at the end of page navigation,
-        after the new page is visible to the user and blocking styles and scripts are loaded.
-        You can listen to this event on the document.
-
-        The <ViewTransitions /> component fires this event both on initial page navigation
-        for a pre-rendered page and on any subsequent navigation,
-        either forwards or backwards.
-
-        You can use this event to run code on every page navigation,
-        for example to set up event listeners
-        that would otherwise be lost during navigation.
-      */
-      console.log("5. astro:page-load");
-    },
-    { once: false } // Options: trigger only once
-  );
-
-  const btnFavorite = document.getElementById("favorite") as HTMLButtonElement | null;
-
-  if (btnFavorite) {
-    const favoritePokemon: FavoritePokemon = {
-      id: btnFavorite.dataset.id ?? "",
-      name: btnFavorite.dataset.name ?? "",
+      btnFavorite.addEventListener("click", () => {
+        heartOutlineIcon.classList.toggle("hidden");
+        heartFilledIcon.classList.toggle("hidden");
+        toggleFavoritePokemon();
+      });
     };
-  
-    btnFavorite.addEventListener("click", () => {
-      console.log("Favorite Pokemon:", favoritePokemon);
-    });
-  }
+  };
+
+  document.addEventListener("astro:page-load", handlePageLoad);
 </script>
 
 <style>
@@ -204,6 +132,9 @@ const pokemonCapitalized = capitalize(name);
   }
   #content {
     @apply w-full mx-auto md:max-w-[600px];
+  }
+  .favoriteIcon {
+    @apply text-red-500;
   }
   .backButton {
     @apply bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded transition-colors;
