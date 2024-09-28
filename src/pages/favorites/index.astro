@@ -1,19 +1,33 @@
 ---
-import MainLayout from "@layouts/main-layout.astro"
-import Heading from "@components/shared/heading.astro"
+import MainLayout from "@layouts/main-layout.astro";
+import Heading from "@components/shared/heading.astro";
+import { Divider } from "@root/src/components";
+import Counter from "@components/Counter";
 ---
 
 <MainLayout
   pageTitle="Favorite Pokemons"
   metaDescription="List of your favorite pokemons"
-  metaRobots="index, follow"
+  metaRobots="noindex, nofollow"
 >
+  <div class="mainWrapper">
+    <div class="flex justify-center items-center gap-4 mt-8">
+      <Heading>Favorite Pokemons</Heading>
+    </div>
 
-  <Heading>Pokemon Favorites</Heading>
+    <Divider />
+
+    <section id="content">
+      <Counter client:load />
+    </section>
+  </div>
 </MainLayout>
 
 <style>
-  h1 {
-    @apply text-5xl text-purple-500/80 font-bold text-center mt-8;
+  .mainWrapper {
+    @apply container mx-auto px-5 lg:px-0;
+  }
+  #content {
+    @apply w-full mx-auto md:max-w-[600px];
   }
 </style>
