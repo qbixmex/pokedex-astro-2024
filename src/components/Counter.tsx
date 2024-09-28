@@ -17,7 +17,7 @@ const Counter = () => {
           class="bg-blue-600 hover:bg-blue-700 px-3 py-2 rounded transition-colors"
           onClick={() => {
             if (counter() > 0) {
-              setCounter(previousCounterValue => --previousCounterValue);
+              setCounter(prev => prev - 1);
             }
           }}
         >-</button>

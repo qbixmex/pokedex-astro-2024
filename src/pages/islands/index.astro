@@ -2,6 +2,7 @@
 import MainLayout from "@layouts/main-layout.astro";
 import Heading from "@components/shared/heading.astro";
 import { Divider } from "@root/src/components";
+import Counter from "@components/Counter";
 ---
 
 <MainLayout
@@ -16,20 +17,21 @@ import { Divider } from "@root/src/components";
 
     <Divider />
 
+    <div class="bg-red-500/50 h-[1000px] mb-10"></div>
+
     <section id="content">
-      <h2>Content Goes Here</h2>
+      <!-- <Counter client:load /> -->
+      <!-- <Counter client:only="solid-js" /> -->
+      <Counter client:visible />
     </section>
   </div>
 </MainLayout>
 
 <style>
   .mainWrapper {
-    @apply container mx-auto px-5 lg:px-0;
+    @apply container mx-auto px-5 mb-10 lg:px-10;
   }
   #content {
     @apply w-full mx-auto md:max-w-[600px];
-    & h2 {
-      @apply text-2xl font-bold text-center;
-    }
   }
 </style>
